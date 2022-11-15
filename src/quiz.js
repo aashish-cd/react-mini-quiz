@@ -99,7 +99,9 @@ const Quiz = () => {
           {answers.map((item, index) => {
             return (
               <div
-                className="answer-container"
+                className={`answer-container ${
+                  item.correct ? "correct" : "incorrect"
+                }`}
                 onClick={() => {
                   handleQuestion();
                   if (item.correct) {
