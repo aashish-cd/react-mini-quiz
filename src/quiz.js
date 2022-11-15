@@ -9,6 +9,8 @@ const Quiz = () => {
   const [number, setNumber] = useState(0);
   const [score, setScore] = useState(0);
 
+  const [showAnswer, setShowAnswer] = useState(false);
+
   const fetchData = async () => {
     const response = await fetch(url);
     const data = await response.json();
@@ -22,11 +24,15 @@ const Quiz = () => {
   }, [showScore]);
 
   const handleQuestion = () => {
-    setNumber(number + 1);
-    if (number >= questionList.length - 1) {
-      setShowScore(true);
-      setNumber(0);
-    }
+    setShowAnswer(true);
+    setTimeout(() => {
+      setShowAnswer(false);
+      setNumber(number + 1);
+      if (number >= questionList.length - 1) {
+        setShowScore(true);
+        setNumber(0);
+      }
+    }, 1000);
   };
 
   if (loading) {
@@ -85,22 +91,11 @@ const Quiz = () => {
           <div className="question-container">
             <h1>Q. {question}</h1>
           </div>
-          {/* <div
-            className="answer-container"
-            onClick={() => {
-              setScore(score + 1);
-              handleQuestion();
-            }}
-          >
-            <label for="answer" className="answer">
-              1. {correct_answer}
-            </label>
-          </div> */}
           {answers.map((item, index) => {
             return (
               <div
                 className={`answer-container ${
-                  item.correct ? "correct" : "incorrect"
+                  showAnswer && item.correct ? "correct" : "incorrect"
                 }`}
                 onClick={() => {
                   handleQuestion();
